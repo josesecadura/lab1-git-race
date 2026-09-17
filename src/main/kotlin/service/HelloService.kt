@@ -3,10 +3,11 @@
     * dependiendo de la hora además del idioma
     * Autor: Jose Secadura Del Olmo NIP: 815327
 */
-
-
+package es.unizar.webeng.hello.service
+import org.springframework.stereotype.Service
 // Recibiera el nombre, recogerá el idioma y hora y devolvera el saludo que toque
 
+@Service
 class HelloService {
     // Language lo cogemos de la petición http que nos llega al llamar al endpoint
     fun getGreeting(name: String, language: String, hour: Int): String {

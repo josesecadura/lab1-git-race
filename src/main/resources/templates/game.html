@@ -1,0 +1,404 @@
+<!-- Plantilla del juego para ver en el frontend con los botones -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rock Paper Scissors</title>
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          crossorigin="anonymous">
+
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+
+    <link th:href="@{/css/styles.css}"
+          href="/css/styles.css"
+          rel="stylesheet">
+</head>
+
+
+<body class="bg-light">
+
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+        <div class="container">
+
+            <a class="navbar-brand" href="/">
+
+                <img src="/assets/logo.svg"
+                     alt="Universidad Zaragoza Logo"
+                     class="me-2 navbar-logo">
+
+                Modern Web App
+
+            </a>
+
+
+            <div class="navbar-nav ms-auto">
+
+                <a class="nav-link" href="/">
+                    Home
+                </a>
+
+                <a class="nav-link"
+                   href="/actuator/health"
+                   target="_blank">
+                    Health
+                </a>
+
+                <a class="nav-link" href="/api/hello">
+                    API
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Game content -->
+    <div class="container my-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="card shadow">
+
+                    <div class="card-body text-center p-5">
+
+
+                        <!-- Logo -->
+                        <img class="d-block mx-auto mb-4 main-logo"
+                             src="/assets/logo.svg"
+                             alt="Universidad Zaragoza Logo">
+
+
+                        <!-- Title -->
+                        <h1 class="display-4 fw-bold text-primary mb-4"
+                            th:text="${gameTitle != null ? gameTitle : 'Rock Paper Scissors'}">
+
+                            Rock Paper Scissors
+
+                        </h1>
+
+
+                        <!-- Welcome -->
+                        <h4 class="mb-3"
+                            th:text="${welcomeMessage != null ? welcomeMessage : 'Welcome to the game!'}">
+
+                            Welcome to the game!
+
+                        </h4>
+
+
+                        <p class="text-muted"
+                           th:text="${chooseMessage != null ? chooseMessage : 'Enter your name and choose your move.'}">
+
+                            Enter your name and choose your move.
+
+                        </p>
+
+
+                        <!-- Player name and buttons -->
+                        <form action="/game/play"
+                              method="post">
+
+
+                            <!-- Player name -->
+                            <input type="text"
+                                   name="name"
+                                   class="form-control mb-4"
+                                   placeholder="Student"
+                                   th:value="${name}"
+                                   required>
+
+
+                            <!-- Game buttons -->
+                            <div class="row justify-content-center g-3">
+
+
+                                <!-- Rock -->
+                                <div class="col-md-4">
+
+                                    <button type="submit"
+                                            name="choice"
+                                            value="ROCK"
+                                            class="btn btn-primary btn-lg w-100"
+                                            th:text="${rockText != null ? rockText : 'Rock'}">
+
+                                        Rock
+
+                                    </button>
+
+                                </div>
+
+
+                                <!-- Paper -->
+                                <div class="col-md-4">
+
+                                    <button type="submit"
+                                            name="choice"
+                                            value="PAPER"
+                                            class="btn btn-success btn-lg w-100"
+                                            th:text="${paperText != null ? paperText : 'Paper'}">
+
+                                        Paper
+
+                                    </button>
+
+                                </div>
+
+
+                                <!-- Scissors -->
+                                <div class="col-md-4">
+
+                                    <button type="submit"
+                                            name="choice"
+                                            value="SCISSORS"
+                                            class="btn btn-danger btn-lg w-100"
+                                            th:text="${scissorsText != null ? scissorsText : 'Scissors'}">
+
+                                        Scissors
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- Game result -->
+                        <div class="mt-5"
+                             th:if="${gameStarted}">
+
+
+                            <div class="card">
+
+
+                                <div class="card-header bg-info text-white">
+
+                                    <h5 class="card-title mb-0"
+                                        th:text="${resultTitle != null ? resultTitle : 'Game Result'}">
+
+                                        Game Result
+
+                                    </h5>
+
+                                </div>
+
+
+                                <div class="card-body">
+
+
+                                    <!-- Player -->
+                                    <p class="mb-2">
+
+                                        <strong th:text="${playerLabel != null ? playerLabel : 'Player:'}">
+                                            Player:
+                                        </strong>
+
+                                        <span th:text="${name}">
+                                            Student
+                                        </span>
+
+                                    </p>
+
+
+                                    <!-- Player choice -->
+                                    <p class="mb-2">
+
+                                        <strong th:text="${yourChoiceLabel != null ? yourChoiceLabel : 'Your choice:'}">
+                                            Your choice:
+                                        </strong>
+
+                                        <span th:text="${playerChoice}">
+                                            ROCK
+                                        </span>
+
+                                    </p>
+
+
+                                    <!-- Computer choice -->
+                                    <p class="mb-2">
+
+                                        <strong th:text="${computerChoiceLabel != null ? computerChoiceLabel : 'Computer choice:'}">
+                                            Computer choice:
+                                        </strong>
+
+                                        <span th:text="${computerChoice}">
+                                            SCISSORS
+                                        </span>
+
+                                    </p>
+
+
+                                    <hr>
+
+
+                                    <!-- Result -->
+                                    <h3 class="text-primary"
+                                        th:text="${result}">
+
+                                        You win!
+
+                                    </h3>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Statistics -->
+                        <div class="mt-4"
+                             th:if="${gameStarted}">
+
+
+                            <div class="card">
+
+
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0"
+                                        th:text="${statisticsTitle != null ? statisticsTitle : 'Statistics'}">
+
+                                        Statistics
+
+                                    </h5>
+
+                                </div>
+
+
+                                <div class="card-body">
+
+                                    <div class="row">
+
+
+                                        <!-- Player -->
+                                        <div class="col-6">
+
+                                            <h6 th:text="${name}">
+                                                Student
+                                            </h6>
+
+                                            <span class="badge bg-success fs-6"
+                                                  th:text="${playerWins}">
+                                                0
+                                            </span>
+
+                                            <p class="mt-2 mb-0"
+                                               th:text="${winsText != null ? winsText : 'Wins'}">
+
+                                                Wins
+
+                                            </p>
+
+                                        </div>
+
+
+                                        <!-- Computer -->
+                                        <div class="col-6">
+
+                                            <h6 th:text="${computerText != null ? computerText : 'Computer'}">
+
+                                                Computer
+
+                                            </h6>
+
+                                            <span class="badge bg-danger fs-6"
+                                                  th:text="${computerWins}">
+                                                0
+                                            </span>
+
+                                            <p class="mt-2 mb-0"
+                                               th:text="${winsText != null ? winsText : 'Wins'}">
+
+                                                Wins
+
+                                            </p>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- New game / Back home -->
+                        <div class="mt-4">
+
+
+                            <a href="/game"
+                               class="btn btn-outline-primary"
+                               th:text="${newGameText != null ? newGameText : 'New Game'}">
+
+                                New Game
+
+                            </a>
+
+
+                            <a href="/"
+                               class="btn btn-outline-secondary"
+                               th:text="${backHomeText != null ? backHomeText : 'Back to Home'}">
+
+                                Back to Home
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center py-3 mt-5">
+
+        <div class="container">
+
+            <p class="mb-0">
+
+                &copy; 2026 Modern Web App.
+                Built with Spring Boot 4.1.0 & Kotlin 2.4.0
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous">
+    </script>
+
+</body>
+
+</html>

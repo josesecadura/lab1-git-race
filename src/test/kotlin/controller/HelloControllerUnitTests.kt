@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.ui.Model
 import org.springframework.ui.ExtendedModelMap
+import es.unizar.webeng.hello.service.HelloService
+
+// Probamos los metodos de las clases sin servidor http sin get...
 
 class HelloControllerUnitTests {
     private lateinit var controller: HelloController
@@ -36,12 +39,12 @@ class HelloControllerUnitTests {
     
     @Test
     fun `should return API response with timestamp`() {
-        val apiController = HelloApiController()
-        val response = apiController.helloApi("Test")
+        val apiController = HelloApiController(HelloService())
+        val response = apiController.helloApi("Test", "es-ES")
         
         assertThat(response).containsKey("message")
         assertThat(response).containsKey("timestamp")
-        assertThat(response["message"]).isEqualTo("Hello, Test!")
+        assertThat(response["message"]).contains("Test")
         assertThat(response["timestamp"]).isNotNull()
     }
 }

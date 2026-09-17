@@ -13,7 +13,7 @@ class HelloController(
     @param:Value("\${app.message:Hello World}") 
     private val message: String
 ) {
-    
+    // Endpoint principal al arrancar la web
     @GetMapping("/")
     fun welcome(
         model: Model,
@@ -28,7 +28,7 @@ class HelloController(
 
 @RestController
 class HelloApiController {
-    
+    // End point al pulsar el test web page y añadir el nombre
     @GetMapping("/api/hello", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun helloApi(@RequestParam(defaultValue = "World") name: String): Map<String, String> {
         return mapOf(

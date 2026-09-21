@@ -41,14 +41,16 @@ class HelloApiController (
     @GetMapping("/api/hello", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun helloApi(
         @RequestParam(defaultValue = "World") name: String, 
-        @RequestHeader("Accept-Language", defaultValue = "en") language: String
+        @RequestHeader("Accept-Language", defaultValue = "en") language: String,
+        // Para poder pasar la hora como parametro y probar los test
+        @RequestParam(required = false) hour: Int?
     ): Map<String, String> {
         // Parseamos el idioma de la cabecera viene como es-X
         val languageCode = language.substringBefore("-").substringBefore(",")
         // Recogemos la hora actual para pasarla al servicio
-        val hour = LocalTime.now().hour
+        val currentHour = hour ?: LocalTime.now().hour
         // Llamamos al servicio para obtener el saludo
-        val greeting = helloService.getGreeting(name, languageCode, hour)
+        val greeting = helloService.getGreeting(name, languageCode, currentHour)
         return mapOf(
             "message" to greeting,
             "timestamp" to java.time.Instant.now().toString()

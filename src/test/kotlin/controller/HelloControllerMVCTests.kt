@@ -64,11 +64,12 @@ class HelloControllerMVCTests {
     fun `should return API response as JSON with greeting`() {
         mockMvc.perform(get("/api/hello")
             .param("name", "Test")
+            .param("hour", "8") // Paso la hora para poder probar el sal de buenos dias
             .header("Accept-Language", "es-ES"))
             .andDo(print())
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.message", containsString("Test")))
+            .andExpect(jsonPath("$.message", equalTo("¡Buenos días, Test!")))
             .andExpect(jsonPath("$.timestamp").exists())    
     }
 }

@@ -14,6 +14,7 @@ import es.unizar.webeng.hello.service.HelloService
 import org.springframework.web.bind.annotation.RequestHeader
 // LocallTime lobtener la hora
 import java.time.LocalTime
+import es.unizar.webeng.hello.service.GreetingRecord
 
 @Controller
 class HelloController(
@@ -55,5 +56,12 @@ class HelloApiController (
             "message" to greeting,
             "timestamp" to java.time.Instant.now().toString()
         )
+    }
+
+    // End point para devolver ult saludos
+    @GetMapping("/api/last-greetings", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun lastGreetings(): Map<String, List<GreetingRecord>> {
+        val lastGreetings = helloService.getLastGreetings()
+        return mapOf("lastGreetings" to lastGreetings)
     }
 }

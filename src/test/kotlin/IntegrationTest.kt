@@ -82,4 +82,34 @@ class IntegrationTest {
         assertThat(response.body).contains("Health Check")
         assertThat(response.body).contains("Learning Notes:")
     }
+
+    // Comproba con peticion http que el endpoint de ultimos saludos
+    // esta disponible y devuelve un json q contiene el nombre del saludo
+    @Test
+    fun `should return recent greetings endpoint`() {
+
+        // Generamos un saludo
+        val greetingResponse = restTemplate.getForEntity(
+            "http://localhost:$port/api/hello?name=Jose&hour=8",
+            String::class.java
+        )
+
+        assertThat(greetingResponse.statusCode)
+            .isEqualTo(HttpStatus.OK)
+
+        // Consultamos los últimos saludos
+        val response = restTemplate.getForEntity(
+            "http://localhost:$port/api/last-greetings",
+            String::class.java
+        )
+
+        assertThat(response.statusCode)
+            .isEqualTo(HttpStatus.OK)
+
+        assertThat(response.headers.contentType)
+            .isEqualTo(MediaType.APPLICATION_JSON)
+
+        assertThat(response.body)
+            .contains("Jose")
+    }
 }

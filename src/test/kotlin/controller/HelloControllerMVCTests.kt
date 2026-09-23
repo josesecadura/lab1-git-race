@@ -72,5 +72,35 @@ class HelloControllerMVCTests {
             .andExpect(jsonPath("$.message", equalTo("¡Buenos días, Test!")))
             .andExpect(jsonPath("$.timestamp").exists())    
     }
+
+    // Test para comprobar el endpoint de los ultimos saludos tiene que funcionar tambien el api/hello
+    @Test
+    fun `should return recent greetings as JSON`() {
+
+        // Primero generamos algunos saludos
+        mockMvc.perform(
+            get("/api/hello")
+                .param("name", "Jose")
+                .param("hour", "8")
+                .header("Accept-Language", "es-ES")
+        )
+            .andExpect(status().isOk)
+
+        mockMvc.perform(
+            get("/api/hello")
+                .param("name", "Ana")
+                .param("hour", "14")
+                .header("Accept-Language", "en")
+        )
+            .andExpect(status().isOk)
+
+        // Comprobamos el endpoint de últimos saludos
+        mockMvc.perform(get("/api/last-greetings"))
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.lastGreetings").isArray())
+            .andExpect(jsonPath("$.lastGreetings").isNotEmpty)
+    }
 }
 

@@ -26,9 +26,9 @@ cd lab1-git-race
 
 ## Lab increment
 
-Ahora los saludos se crean según la hora del día y el idioma recibido por la cabecera `Accept-Language`
+Ahora los saludos se crean según la hora del día y el idioma recibido por la cabecera `Accept-Language` en el endpoint de /api/hello el endpoint base de test web no se ha modificado.
 
-También se ha añadido una cola en memoria para guardar y mostrar los 13 saludos más recientes al pulsar un botón mediante llamada a un nuevo endpoint.
+También se ha añadido una cola en memoria para guardar y mostrar los 13 saludos más recientes al pulsar un botón mediante llamada a un nuevo endpoint /api/last-greetings.
 
 Se han actualizado los test que ya había debido a los cambios implementados, además de crear un nuevo test para HelloService una clase nueva que da soporte a todo lo nuevo relacionado con el saludo.
 
